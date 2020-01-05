@@ -1,0 +1,25 @@
+ul li{
+    display: inline;
+ }
+#main{
+  padding:0;
+  width:100%;
+  clear:both;
+}
+#main ul{
+  display: flex;
+  -webkit-justify-content: flex-start;/* Safari */
+  justify-content: flex-start;
+  text-decoration: none;
+  flex-wrap: wrap;
+}
+#main ul li{
+  width:33%;
+  background: #ffffff;
+  box-sizing: border-box;
+  margin-right:0.5%;
+  margin-top:5px;
+}
+#main ul li:nth-child(3n){
+  margin-right:0;
+}
