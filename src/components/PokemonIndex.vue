@@ -1,5 +1,5 @@
 <template>
-  <li class="pokemon-index" >
+  <li class="pokemon-index">
     <h3 @click=openModal>{{ pokemon.id }}. {{ getI18nName }}</h3>
     <img v-bind:src="getSprites" @click=chengeSprites />
     <div>{{ getType }}</div>
@@ -48,9 +48,9 @@ export default {
     getType: function () {
       let types = this.pokemon.types;
       if (types.length === 2) {
-        return `【${types[0].type.name}】【${types[1].type.name}】`;
+        return `《${types[0].type.name}》《${types[1].type.name}》`;
       } else {
-        return `【${types[0].type.name}】`;
+        return `《${types[0].type.name}》 `;
       }
     },
     getI18nName: function() {
