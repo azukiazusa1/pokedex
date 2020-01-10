@@ -36,11 +36,11 @@ export default {
   mounted () {
     (async () => {
       try {
-        let species = await axios.get(this.pokemon.species.url);
-        return this.species = species.data;
-        if (Math.random < 0.1) {
+        if (Math.random() < 0.03) {
           this.shiny = true;
         }
+        let species = await axios.get(this.pokemon.species.url);
+        return this.species = species.data;
       } catch(err){
         console.error(err);
       }
