@@ -1,16 +1,18 @@
 <template>
   <li class="pokemon-index">
-    <h3 @click=openModal>{{ pokemon.id }}. {{ getI18nName }}</h3>
-    <img v-bind:src="getSprites" @click=chengeSprites />
-    <div>{{ getType }}</div>
-    <div>{{ getI18nGenera }}</div>
-    <div>たかさ: {{ pokemon.height / 10 }}m</div>
-    <div>おもさ: {{ pokemon.weight / 10 }}Kg</div>
-    <div>
-      <pokemon-details @close="closeModal" v-if="modal">
-        {{ getI18nFlavorText }}
-      </pokemon-details>
-    </div>
+      <h3 @click=openModal>{{ pokemon.id }}. {{ getI18nName }}</h3>
+    <span class="circle">
+      <img v-bind:src="getSprites" @click=chengeSprites />
+    </span>
+      <div>{{ getType }}</div>
+      <div>{{ getI18nGenera }}</div>
+      <div>たかさ: {{ pokemon.height / 10 }}m</div>
+      <div>おもさ: {{ pokemon.weight / 10 }}Kg</div>
+      <div>
+        <pokemon-details @close="closeModal" v-if="modal">
+          {{ getI18nFlavorText }}
+        </pokemon-details>
+      </div>
   </li>
 </template>
 
@@ -108,7 +110,35 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
+ul{
+  display: flex;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  text-decoration: none;
+  flex-wrap: wrap;
+}
+li{
+  display: inline;
+}
+li{
+  width:32%;
+  height:32%;
+  background: #FFFFFF;
+  box-sizing: border-box;
+  margin-right:0.5%;
+  margin-top:5px;
+  border-radius: 10px
+}
+li:nth-child(3n){
+  margin-right: 0.2%;
+}
+.circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #ccc;
+}
 img, h3 {
   cursor: pointer;
 }
