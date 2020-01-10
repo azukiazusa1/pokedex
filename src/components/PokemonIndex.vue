@@ -111,13 +111,6 @@ export default {
 </script>
 
 <style scoped>
-ul{
-  display: flex;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
-  text-decoration: none;
-  flex-wrap: wrap;
-}
 li{
   display: inline;
 }

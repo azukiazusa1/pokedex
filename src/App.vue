@@ -81,29 +81,17 @@ export default {
 </script>
 
 <style>
-ul li{
-  display: inline;
-}
 #app{
   padding:0;
   width:100%;
   clear:both;
 }
+
 #app ul{
   display: flex;
   -webkit-justify-content: flex-start;
   justify-content: flex-start;
   text-decoration: none;
   flex-wrap: wrap;
-}
-#app ul li{
-  width:32%;
-  background: #F2F2F2;
-  box-sizing: border-box;
-  margin-right:0.5%;
-  margin-top:5px;
-}
-#app ul li:nth-child(3n){
-  margin-right: 0.2%;
 }
 </style>
