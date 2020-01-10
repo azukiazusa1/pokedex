@@ -34,4 +34,8 @@ export default {
     text-align: center;
     font-size: 25px;
   }
+  p {
+    text-align: center;
+    color: #0D47A1;
+  }
 </style>

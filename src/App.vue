@@ -27,7 +27,11 @@ import Paginate from './components/Paginate.vue'
 const AREA = {
   kanto: '?offset=0&limit=21',
   johto: '?offset=151&limit=21',
-  hohen: '?offset=251&limit=21'
+  hohen: '?offset=251&limit=21',
+  sinoh: '?offset=386&limit=21',
+  unova: '?offset=493&limit=21',
+  karos: '?offset=650&limit=21',
+  alola: '?offset=721&limit=21'
 };
 export default {
   name: 'app',
@@ -37,7 +41,7 @@ export default {
         next: null
       },
       pokemons: [],
-      base_url: 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=21',
+      base_url: 'https://pokeapi.co/api/v2/pokemon?offset=386&limit=21',
       params: {
         area: '',
       }
@@ -87,19 +91,19 @@ ul li{
 }
 #app ul{
   display: flex;
-  -webkit-justify-content: flex-start;/* Safari */
+  -webkit-justify-content: flex-start;
   justify-content: flex-start;
   text-decoration: none;
   flex-wrap: wrap;
 }
 #app ul li{
-  width:33%;
-  background: #ffffff;
+  width:32%;
+  background: #F2F2F2;
   box-sizing: border-box;
   margin-right:0.5%;
   margin-top:5px;
 }
 #app ul li:nth-child(3n){
-  margin-right:0;
+  margin-right: 0.2%;
 }
 </style>

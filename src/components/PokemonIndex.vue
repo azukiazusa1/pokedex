@@ -113,11 +113,13 @@ img, h3 {
   cursor: pointer;
 }
 
+.pokemon-index {
+  text-align: center;
+}
 h3 {
   text-decoration: underline;
 }
 img {
-  display: block;
   transition-duration: 0.3s;
 }
 img:hover {
