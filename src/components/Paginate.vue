@@ -1,7 +1,7 @@
 <template>
   <span id="next">
     <p v-if="loading">Now Loading...</p>
-    <p v-else="response.next" @click="nextPage">もっとみる</p>
+    <p class="next" v-else="response.next" @mouseover="nextPage">もっとみる</p>
   </span>
 </template>
 
@@ -28,14 +28,18 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
   #next {
     cursor : pointer;
     text-align: center;
     font-size: 25px;
   }
   p {
-    text-align: center;
-    color: #0D47A1;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  background: #668ad8;/*ボタン色*/
+  color: #FFF;
+  border-bottom: solid 4px #627295;
+  border-radius: 3px;
   }
 </style>

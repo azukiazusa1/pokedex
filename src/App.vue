@@ -5,13 +5,15 @@
       <option value="kanto">カントー</option>
       <option value="johto">ジョウト</option>
       <option value="hohen">ホウエン</option>
-      <option value="4">シンオウ</option>
-      <option value="5">イッシュ</option>
+      <option value="sinnoh">シンオウ</option>
+      <option value="karos">カロス</option>
+      <option value="alola">アローラ</option>
     </select>
     <ul>
       <pokemon-index
         v-for="pokemon in pokemons"
         v-bind:pokemon="pokemon.data"
+        v-bind:local="local"
         :key="pokemon.data.id"
       ></pokemon-index>
     </ul>
@@ -28,7 +30,7 @@ const AREA = {
   kanto: '?offset=0&limit=21',
   johto: '?offset=151&limit=21',
   hohen: '?offset=251&limit=21',
-  sinoh: '?offset=386&limit=21',
+  sinnoh: '?offset=386&limit=21',
   unova: '?offset=493&limit=21',
   karos: '?offset=650&limit=21',
   alola: '?offset=721&limit=21'
@@ -41,10 +43,11 @@ export default {
         next: null
       },
       pokemons: [],
-      base_url: 'https://pokeapi.co/api/v2/pokemon?offset=386&limit=21',
+      base_url: 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=21',
       params: {
         area: '',
-      }
+      },
+      local: 'JP'
     }
   },
   methods: {

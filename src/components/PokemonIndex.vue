@@ -4,7 +4,7 @@
     <span class="circle">
       <img v-bind:src="getSprites" @click=chengeSprites />
     </span>
-      <div>{{ getType }}</div>
+      <div>{{ types }}</div>
       <div>{{ getI18nGenera }}</div>
       <div>たかさ: {{ pokemon.height / 10 }}m</div>
       <div>おもさ: {{ pokemon.weight / 10 }}Kg</div>
@@ -14,10 +14,11 @@
           v-if="modal"
           v-bind:pokemon="pokemon"
           v-bind:species="species"
-          v-bind:type="getType"
+          v-bind:type="types"
           v-bind:name="getI18nName"
           v-bind:genera="getI18nGenera"
-          v-bind:sprits="getSprites"
+          v-bind:sprites="getSprites"
+          v-bind:local="local"
         >
         </pokemon-details>
       </div>
@@ -28,17 +29,15 @@
 import axios from 'axios'
 import PokemonDetails from '../components/PokemonDetails.vue'
 
-const LANGUAGE = {
-  JP: 'ja'
-};
 export default {
-  props: ['pokemon'],
+  props: ['pokemon', 'local'],
   data: function() {
     return {
       species : null,
+      types: null,
       modal: false,
       front: true,
-      shiny: false
+      shiny: false,
     }
   },
   mounted () {
@@ -53,34 +52,27 @@ export default {
         console.error(err);
       }
     })();
+    this.getI18nType();
   },
   computed: {
-    getType: function () {
-      let types = this.pokemon.types;
-      if (types.length === 2) {
-        return `《${types[0].type.name}》《${types[1].type.name}》`;
-      } else {
-        return `《${types[0].type.name}》 `;
-      }
-    },
     getI18nName: function() {
       if (this.species !== null) {
         let names = this.species.names;
-        let result = names.find(v => v.language.name === LANGUAGE.JP);
+        let result = names.find(v => v.language.name === this.$language[this.local]);
         return result.name;
       }
     },
     getI18nFlavorText: function() {
       if (this.species !== null) {
         let flavor_text_entries = this.species.flavor_text_entries;
-        let result = flavor_text_entries.find(v => v.language.name === LANGUAGE.JP);
+        let result = flavor_text_entries.find(v => v.language.name === this.$language[this.local]);
         return result.flavor_text;
       }
     },
     getI18nGenera: function() {
       if (this.species !== null) {
         let genera = this.species.genera;
-        let result = genera.find(v => v.language.name === LANGUAGE.JP);
+        let result = genera.find(v => v.language.name === this.$language[this.local]);
         return result.genus;
       }
     },
@@ -101,6 +93,15 @@ export default {
     }
   },
   methods: {
+     getI18nType: async function () {
+      let types = '';
+      for (const type of this.pokemon.types) {
+        const result = await axios.get(type.type.url);
+        const type_name = result.data.names.find(v => v.language.name === this.$language[this.local]);
+        types += `《${type_name.name}》`;
+      }
+      this.types = types;
+    },
     openModal() {
       this.modal = true;
     },
