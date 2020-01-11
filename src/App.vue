@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <select v-model="params.area">
+    地方：
+    <select v-model="area">
       <option value="kanto">カントー</option>
       <option value="johto">ジョウト</option>
       <option value="hohen">ホウエン</option>
@@ -8,6 +9,7 @@
       <option value="karos">カロス</option>
       <option value="alola">アローラ</option>
     </select>
+    Language:
     <select v-model="local">
       <option value="JP">日本</option>
       <option value="EN">英語</option>
@@ -51,10 +53,8 @@ export default {
         next: null
       },
       pokemons: [],
-      base_url: 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=21',
-      params: {
-        area: '',
-      },
+      base_url: `${this.$url}?offset=0&limit=21`,
+      area: null,
       local: 'JP'
     }
   },
@@ -73,14 +73,14 @@ export default {
         console.error(e);
       }
     },
-    search: function() {}
   },
   mounted () {
     this.get();
   },
   watch: {
     area: function () {
-      this.search();
+      this.pokemons = [];
+      this.get(`${this.$url}${AREA[this.area]}`);
     }
   },
   components: {
