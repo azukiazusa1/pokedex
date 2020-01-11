@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    search<input type="text" name="search">
     <select v-model="params.area">
       <option value="kanto">カントー</option>
       <option value="johto">ジョウト</option>
@@ -8,6 +7,15 @@
       <option value="sinnoh">シンオウ</option>
       <option value="karos">カロス</option>
       <option value="alola">アローラ</option>
+    </select>
+    <select v-model="local">
+      <option value="JP">日本</option>
+      <option value="EN">英語</option>
+      <option value="KO">韓国</option>
+      <option value="FR">フランス</option>
+      <option value="DE">ドイツ</option>
+      <option value="ES">スペイン</option>
+      <option value="IT">イタリア</option>
     </select>
     <ul>
       <pokemon-index

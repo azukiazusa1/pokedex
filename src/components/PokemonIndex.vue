@@ -4,7 +4,7 @@
     <span class="circle">
       <img v-bind:src="getSprites" @click=chengeSprites />
     </span>
-      <div>{{ types }}</div>
+      <div>{{ getI18nType }}</div>
       <div>{{ getI18nGenera }}</div>
       <div>たかさ: {{ pokemon.height / 10 }}m</div>
       <div>おもさ: {{ pokemon.weight / 10 }}Kg</div>
@@ -14,7 +14,7 @@
           v-if="modal"
           v-bind:pokemon="pokemon"
           v-bind:species="species"
-          v-bind:type="types"
+          v-bind:type="getI18nType"
           v-bind:name="getI18nName"
           v-bind:genera="getI18nGenera"
           v-bind:sprites="getSprites"
@@ -34,7 +34,7 @@ export default {
   data: function() {
     return {
       species : null,
-      types: null,
+      types: [],
       modal: false,
       front: true,
       shiny: false,
@@ -52,7 +52,7 @@ export default {
         console.error(err);
       }
     })();
-    this.getI18nType();
+    this.getTypes();
   },
   computed: {
     getI18nName: function() {
@@ -90,17 +90,22 @@ export default {
           return this.pokemon.sprites.back_default;
         }
       }
+    },
+    getI18nType: function() {
+      let types = '';
+      for (const type of this.types) {
+        const type_name = type.names.find(v => v.language.name === this.$language[this.local]);
+        types += `《${type_name.name}》`;
+      }
+      return types;
     }
   },
   methods: {
-     getI18nType: async function () {
-      let types = '';
+    getTypes: async function () {
       for (const type of this.pokemon.types) {
-        const result = await axios.get(type.type.url);
-        const type_name = result.data.names.find(v => v.language.name === this.$language[this.local]);
-        types += `《${type_name.name}》`;
+        let result = await axios.get(type.type.url);
+        this.types.push(result.data);
       }
-      this.types = types;
     },
     openModal() {
       this.modal = true;
