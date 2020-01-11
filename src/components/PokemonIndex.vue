@@ -9,8 +9,16 @@
       <div>たかさ: {{ pokemon.height / 10 }}m</div>
       <div>おもさ: {{ pokemon.weight / 10 }}Kg</div>
       <div>
-        <pokemon-details @close="closeModal" v-if="modal">
-          {{ getI18nFlavorText }}
+        <pokemon-details
+          @close="closeModal"
+          v-if="modal"
+          v-bind:pokemon="pokemon"
+          v-bind:species="species"
+          v-bind:type="getType"
+          v-bind:name="getI18nName"
+          v-bind:genera="getI18nGenera"
+          v-bind:sprits="getSprites"
+        >
         </pokemon-details>
       </div>
   </li>
