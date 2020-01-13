@@ -1,7 +1,7 @@
 <template>
   <span id="next">
     <p v-if="loading">Now Loading...</p>
-    <p class="next" v-else="response.next" @mouseover="nextPage">もっとみる</p>
+    <p class="next" v-else-if="response.next" @mouseover="nextPage">もっとみる</p>
   </span>
 </template>
 
