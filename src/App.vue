@@ -147,7 +147,9 @@ export default {
     word: function() {
       this.pokemons = [];
       this.response.next = null;
-      this.searchByWord(`${this.$url}pokemon/${this.word}`);
+      // APIは小文字のみ受付
+      const word = this.word.toLowerCase();
+      this.searchByWord(`${this.$url}pokemon/${word}`);
     },
     type: function() {
       this.pokemons = [];
