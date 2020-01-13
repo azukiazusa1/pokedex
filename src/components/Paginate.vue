@@ -1,13 +1,14 @@
 <template>
   <span id="next">
-    <p v-if="loading">Now Loading...</p>
-    <p class="next" v-else-if="response.next" @mouseover="nextPage">もっとみる</p>
+    <p v-if="empty" id="empty">見つかりませんでした。</p>
+    <p v-else-if="loading">Now Loading...</p>
+    <p id="next" v-else-if="response.next" @mouseover="nextPage">もっとみる</p>
   </span>
 </template>
 
 <script>
 export default {
-  props: ['response'],
+  props: ['response', 'empty'],
   data: function() {
     return {
       loading: true,
@@ -33,6 +34,13 @@ export default {
     cursor : pointer;
     text-align: center;
     font-size: 25px;
+  }
+  #empty {
+    position: absolute;
+    top:50%;
+    left: 0;
+    right: 0;
+    margin: auto;
   }
   p {
   padding: 0.5em 1em;

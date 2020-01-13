@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 
 Vue.config.productionTip = false
-Vue.prototype.$url = 'https://pokeapi.co/api/v2/pokemon'
+Vue.prototype.$url = 'https://pokeapi.co/api/v2/'
 Vue.prototype.$language = {
   JP: 'ja-Hrkt',
   EN: 'en',
