@@ -58,6 +58,9 @@
                   <p class="evo">{{ evo }}　</p>
               </div>
             </div>
+            <div>
+              <a class="close" @click.self="$emit('close')">閉じる</a>
+            </div>
 	    		</div>
 	    	</div>
 	    </div>
@@ -161,13 +164,22 @@ export default {
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
   }
-
-  &-window {
-    background: #fff;
-    overflow: hidden;
-    border-radius: 5px;
+  @media screen and (min-width: 769px) {
+    &-window {
+      background: #fff;
+      overflow: hidden;
+      border-radius: 5px;
+    }
   }
-
+  @media screen and (max-width: 768px) and (max-width: 480px) {
+    &-window {
+      width: 80%;
+      height: 70%;
+      background: #fff;
+      overflow-y: auto;
+      border-radius: 5px;
+    }
+  }
 
   &-content {
     background-color: #D9E5FF;
@@ -216,40 +228,75 @@ table {
   border-bottom: 1px solid;
 }
 
-.tooltiptext {
-  width: 200px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
-}
+@media screen and (min-width: 769px) {
+  .tooltiptext {
+    width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    margin: auto;
+    z-index: 1;
+  }
+  .flex{
+    display:flex
+  }
 
-.flex{
-  display:flex
-}
+  .b{
+    width: 30%
+    background-color: #f2f2f2
+    margin: 5px
+    border-radius: 50%
+  }
 
-.b{
-  width: 30%
-  background-color: #f2f2f2
-  margin: 5px
-  border-radius: 50%
-}
+  .c {
+    width: 40%
+    background-color: #f2f2f2
+    margin: 5px
+    border-radius: 50%
+  }
 
-.c {
-  width: 40%
-  background-color: #f2f2f2
-  margin: 5px
-  border-radius: 50%
+  .d {
+    background-color: #f2f2f2
+    margin: 5px
+    width: 30%
+    border-radius: 50%
+  }
 }
+@media screen and (max-width: 768px) and (max-width: 480px) {
 
-.d {
-  background-color: #f2f2f2
-  margin: 5px
-  width: 30%
-  border-radius: 50%
+  .tooltiptext {
+    width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 1;
+  }
+
+  .b{
+    display: inline-block
+    text-align: center
+    width: 80%
+    height: 50%
+    background-color: #f2f2f2
+    margin: 5px
+    border-radius: 50%
+  }
+  .c, .d {
+    margin-top: 5px
+    margin-bottom: 5px
+    width: 100%
+    background-color: #f2f2f2
+    border-radius: 50%
+  }
 }
 
 .flavor_text {
@@ -260,5 +307,16 @@ table {
 
 .evo {
   text-align:center;
+}
+
+.close {
+  display: inline-block;
+  padding: 7px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  color: #FFF;
+  background-image: linear-gradient(45deg, #d6d6d6 0%, #636363 100%);
+  transition: .4s;
+  border-bottom: solid 4px #627295;
 }
 </style>

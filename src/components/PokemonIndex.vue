@@ -125,21 +125,38 @@ export default {
 </script>
 
 <style scoped>
-li{
-  display: inline;
+@media screen and (max-width: 768px) and (max-width: 480px) {
+  li{
+    display: inline;
+  }
+  li{
+    width:90%;
+    height:32%;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    margin-right:0.5%;
+    margin-top:5px;
+    border-radius: 10px
+  }
 }
-li{
-  width:32%;
-  height:32%;
-  background: #FFFFFF;
-  box-sizing: border-box;
-  margin-right:0.5%;
-  margin-top:5px;
-  border-radius: 10px
+@media screen and (min-width: 769px){
+  li{
+      display: inline;
+  }
+  li{
+    width:32%;
+    height:32%;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    margin-right:0.5%;
+    margin-top:5px;
+    border-radius: 10px
+  }
+  li:nth-child(3n){
+    margin-right: 0.2%;
+  }
 }
-li:nth-child(3n){
-  margin-right: 0.2%;
-}
+
 .circle {
   width: 100px;
   height: 100px;
