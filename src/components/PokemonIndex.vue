@@ -30,7 +30,10 @@ import axios from 'axios'
 import PokemonDetails from '../components/PokemonDetails.vue'
 
 export default {
-  props: ['pokemon', 'local'],
+  props: {
+    pokemon: Object,
+    local: String
+  },
   data: function() {
     return {
       species : null,
@@ -41,17 +44,11 @@ export default {
     }
   },
   mounted () {
-    (async () => {
-      try {
-        if (Math.random() < 0.03) {
-          this.shiny = true;
-        }
-        let species = await axios.get(this.pokemon.species.url);
-        return this.species = species.data;
-      } catch(err){
-        console.error(err);
-      }
-    })();
+    // 色違いの判定
+    if (Math.random() < 0.03) {
+      this.shiny = true;
+    }
+    this.getSpecies();
     this.getTypes();
   },
   computed: {
@@ -101,6 +98,14 @@ export default {
     }
   },
   methods: {
+    getSpecies: async function() {
+      try {
+        const species = await axios.get(this.pokemon.species.url);
+        return this.species = species.data;
+      } catch(err){
+        console.error(err);
+      }
+    },
     getTypes: async function () {
       for (const type of this.pokemon.types) {
         let result = await axios.get(type.type.url);
@@ -125,11 +130,9 @@ export default {
 </script>
 
 <style scoped>
-@media screen and (max-width: 768px) and (max-width: 480px) {
+@media screen and (max-width: 480px) {
   li{
     display: inline;
-  }
-  li{
     width:90%;
     height:32%;
     background: #FFFFFF;
@@ -139,11 +142,9 @@ export default {
     border-radius: 10px
   }
 }
-@media screen and (min-width: 769px){
+@media screen and (min-width: 481px){
   li{
-      display: inline;
-  }
-  li{
+    display: inline;
     width:32%;
     height:32%;
     background: #FFFFFF;
