@@ -47,7 +47,7 @@
               </div>
               <div>
                 <h4>たまごグループ</h4>
-                <ul v-for="egg_group in species.egg_groups">
+                <ul v-for="egg_group in egg_groups">
                   <li>{{ egg_group.name }}</li>
                 </ul>
               </div>
@@ -83,7 +83,9 @@ export default {
   data: function() {
     return {
       evolution_chain: null,
-      abilities: null,
+      egg_groups: [],
+      abilities: [],
+      egg_groups: [],
       tooltiptext: {
         0: false,
         1: false,
@@ -95,18 +97,18 @@ export default {
   mounted() {
     this.getEvolutionChain();
     this.getI18nAbilities();
+    this.getI18nEggGroups();
   },
   computed: {
 
     getI18nFlavorText: function() {
-      let flavor_text_entries = this.species.flavor_text_entries;
-      let result = flavor_text_entries.find(v => v.language.name === this.$language[this.local]);
+      const flavor_text_entries = this.species.flavor_text_entries;
+      const result = flavor_text_entries.find(v => v.language.name === this.$language[this.local]);
       return result.flavor_text;
     },
   },
   methods: {
     getI18nAbilities: async function() {
-      const abilities = []
       const abilities_flavor_text = []
       for (const ability of this.pokemon.abilities) {
         const result = await axios.get(ability.ability.url);
@@ -116,11 +118,16 @@ export default {
           name: `${ability.slot}： ${ability_name.name}`,
           flavor_text: ability_flavor_text.flavor_text
         }
-        abilities.unshift(full_abliity);
+        this.abilities.unshift(full_abliity);
       }
-      this.abilities = abilities;
     },
-
+    getI18nEggGroups: async function () {
+      for (const egg_group of this.species.egg_groups) {
+        const result = await axios.get(egg_group.url);
+        const egg_group_name = result.data.names.find(v => v.language.name === this.$language[this.local]);
+        this.egg_groups.push(egg_group_name);
+      }
+    },
     getEvolutionChain: async function() {
       const chain = [];
       const url = this.species.evolution_chain.url;
