@@ -9,7 +9,7 @@ Vue.prototype.$area = {
   hohen: '?offset=251&limit=21',
   sinnoh: '?offset=386&limit=21',
   unova: '?offset=493&limit=21',
-  karos: '?offset=650&limit=21',
+  karos: '?offset=649&limit=21',
   alola: '?offset=721&limit=21'
 };
 Vue.prototype.$language = {
