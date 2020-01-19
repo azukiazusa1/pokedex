@@ -110,7 +110,7 @@ export default {
       this.pokemons = [];
       this.get(`${this.$url}pokemon${this.$area[this.area]}`);
     },
-    word: function(a, b) {
+    word: function() {
       // APIは小文字のみ受付
       const word = this.word.toLowerCase();
       this.searchByWord(`${this.$url}pokemon/${word}`);

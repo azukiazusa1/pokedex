@@ -1,69 +1,69 @@
 <template>
-	<transition name="modal" appear>
-	    <div class="modal modal-overlay" @click.self="$emit('close')">
-	    	<div class="modal-window">
-	        	<div class="modal-content">
-              <div class='flex'>
-                <div class="b">
-                  <div>{{ pokemon.id }}. {{ name }}</div>
-                  <img v-bind:src="sprites"/>
+  <transition name="modal" appear>
+	  <div class="modal modal-overlay" @click.self="$emit('close')">
+	    <div class="modal-window">
+	      <div class="modal-content">
+          <div class='flex'>
+            <div class="b">
+              <div>{{ pokemon.id }}. {{ name }}</div>
+                <img v-bind:src="sprites"/>
+              </div>
+            <div class="c">
+              <div>{{ type }}</div>
+              <div>{{ genera }}</div>
+              <div>たかさ: {{ pokemon.height / 10 }}m</div>
+              <div>おもさ: {{ pokemon.weight / 10 }}Kg</div>
+            </div>
+            <div class="d">
+              <div>とくせい</div>
+              <div v-for="(ability, index) in abilities" :key="index">
+                <div>
+                  {{ ability.name }}
+                  <span @mouseover="showTooltiptext(index)" @mouseout="closeTooltiptext(index)" class="tooltip">?</span>
                 </div>
-                <div class="c">
-                  <div>{{ type }}</div>
-                  <div>{{ genera }}</div>
-                  <div>たかさ: {{ pokemon.height / 10 }}m</div>
-                  <div>おもさ: {{ pokemon.weight / 10 }}Kg</div>
-                </div>
-              <div class="d">
-                <div>とくせい</div>
-                <div v-for="(ability, index) in abilities">
-                  <div>
-                    {{ ability.name }}
-                    <span @mouseover="showTooltiptext(index)" @mouseout="closeTooltiptext(index)" class="tooltip">?</span>
-                  </div>
-                  <span v-if="tooltiptext[index]" class="tooltiptext">{{ ability.flavor_text }}</span>
-                </div>
+                <span v-if="tooltiptext[index]" class="tooltiptext">{{ ability.flavor_text }}</span>
               </div>
             </div>
-      	    <div class="flavor_text">
-              {{ getI18nFlavorText }}
-            </div>
-            <div class="flex">
-              <div>
-                <h4>のうりょく</h4>
-               <table>
-                  <tr>
-                    <td>　HP　</td><td>こうげき</td><td>ぼうぎょ</td><td>とくこう</td><td>とくぼう</td><td>すばやさ</td>
-                  </tr>
-                  <tr>
-                    <td>{{ pokemon.stats[5].base_stat }}</td>
-                    <td>{{ pokemon.stats[4].base_stat }}</td>
-                    <td>{{ pokemon.stats[3].base_stat }}</td>
-                    <td>{{ pokemon.stats[2].base_stat }}</td>
-                    <td>{{ pokemon.stats[1].base_stat }}</td>
-                    <td>{{ pokemon.stats[0].base_stat }}</td>
-                  </tr>
-                </table>
-              </div>
-              <div>
-                <h4>たまごグループ</h4>
-                <ul v-for="egg_group in egg_groups">
-                  <li>{{ egg_group.name }}</li>
-                </ul>
-              </div>
-            </div>
-              <h4>しんか</h4>
-            <div class="flex evo">
-              <div class="evo"v-for="evo in evolution_chain">
-                  <p class="evo">{{ evo }}　</p>
-              </div>
+          </div>
+      	  <div class="flavor_text">
+            {{ getI18nFlavorText }}
+          </div>
+          <div class="flex">
+            <div>
+              <h4>のうりょく</h4>
+              <table>
+                <tr>
+                  <td>　HP　</td><td>こうげき</td><td>ぼうぎょ</td><td>とくこう</td><td>とくぼう</td><td>すばやさ</td>
+                </tr>
+                <tr>
+                  <td>{{ pokemon.stats[5].base_stat }}</td>
+                  <td>{{ pokemon.stats[4].base_stat }}</td>
+                  <td>{{ pokemon.stats[3].base_stat }}</td>
+                  <td>{{ pokemon.stats[2].base_stat }}</td>
+                  <td>{{ pokemon.stats[1].base_stat }}</td>
+                  <td>{{ pokemon.stats[0].base_stat }}</td>
+                </tr>
+              </table>
             </div>
             <div>
-              <a class="close" @click.self="$emit('close')">閉じる</a>
+              <h4>たまごグループ</h4>
+              <ul v-for="(egg_group, index) in egg_groups" :key="index">
+                <li>{{ egg_group.name }}</li>
+              </ul>
             </div>
-	    		</div>
-	    	</div>
-	    </div>
+          </div>
+          <h4>しんか</h4>
+          <div class="flex evo">
+            <div class="evo"v-for="(evo, index) in evolution_chain" :key="index">
+              <p class="evo">{{ evo }}</p>
+            </div>
+          </div>
+          <div>
+            <a class="close" @click.self="$emit('close')">閉じる</a>
+          </div>
+  		  </div>
+  	 </div>
+    </div>
 	</transition>
 </template>
 
@@ -85,7 +85,6 @@ export default {
       evolution_chain: null,
       egg_groups: [],
       abilities: [],
-      egg_groups: [],
       tooltiptext: {
         0: false,
         1: false,
@@ -109,7 +108,6 @@ export default {
   },
   methods: {
     getI18nAbilities: async function() {
-      const abilities_flavor_text = []
       for (const ability of this.pokemon.abilities) {
         const result = await axios.get(ability.ability.url);
         const ability_name = result.data.names.find(v => v.language.name === this.$language[this.local]);
