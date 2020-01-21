@@ -1,8 +1,8 @@
 <template>
   <transition name="modal" appear>
-	  <div class="modal modal-overlay" @click.self="$emit('close')">
-	    <div class="modal-window">
-	      <div class="modal-content">
+    <div class="modal modal-overlay" @click.self="$emit('close')">
+      <div class="modal-window">
+        <div class="modal-content">
           <div class='flex'>
             <div class="b">
               <div>{{ pokemon.id }}. {{ name }}</div>
@@ -25,15 +25,15 @@
               </div>
             </div>
           </div>
-      	  <div class="flavor_text">
+          <div class="flavor_text">
             {{ getI18nFlavorText }}
           </div>
           <div class="flex">
-            <div>
+            <div id="stats">
               <h4>のうりょく</h4>
               <table>
                 <tr>
-                  <td>　HP　</td><td>こうげき</td><td>ぼうぎょ</td><td>とくこう</td><td>とくぼう</td><td>すばやさ</td>
+                  <td>HP</td><td>こうげき</td><td>ぼうぎょ</td><td>とくこう</td><td>とくぼう</td><td>すばやさ</td>
                 </tr>
                 <tr>
                   <td>{{ pokemon.stats[5].base_stat }}</td>
@@ -45,7 +45,7 @@
                 </tr>
               </table>
             </div>
-            <div>
+            <div id="egg-group">
               <h4>たまごグループ</h4>
               <ul v-for="(egg_group, index) in egg_groups" :key="index">
                 <li>{{ egg_group.name }}</li>
@@ -54,17 +54,17 @@
           </div>
           <h4>しんか</h4>
           <div class="flex evo">
-            <div class="evo"v-for="(evo, index) in evolution_chain" :key="index">
+            <div class="evo" v-for="(evo, index) in evolution_chain" :key="index">
               <p class="evo">{{ evo }}</p>
             </div>
           </div>
           <div>
             <a class="close" @click.self="$emit('close')">閉じる</a>
           </div>
-  		  </div>
-  	 </div>
+        </div>
+     </div>
     </div>
-	</transition>
+  </transition>
 </template>
 
 <script>
@@ -225,7 +225,9 @@ th,td {
 
 table {
   border-collapse:  collapse;
-  background-color: #f2f2f2
+  background-color: #f2f2f2;
+  table-layout: fixed;
+  width: 100%
 }
 
 .tooltip {
@@ -268,6 +270,15 @@ table {
     margin: 5px
     width: 30%
     border-radius: 50%
+  }
+
+  #stats {
+    width: 40%;
+  }
+
+  #egg-groups {
+    width: 60%;
+    margin: 10px;
   }
 }
 @media screen and (max-width: 768px) and (max-width: 480px) {

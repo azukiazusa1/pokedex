@@ -1,11 +1,11 @@
 <template>
   <li class="pokemon-index">
-      <h3 @click=openModal>{{ pokemon.id }}. {{ getI18nName }}</h3>
+      <h3 @click=openModal>{{ pokemon.id }}. {{ name }}</h3>
     <span class="circle">
-      <img v-bind:src="getSprites" @click=chengeSprites />
+      <img v-bind:src="sprites" @click=chengeSprites />
     </span>
-      <div>{{ getI18nType }}</div>
-      <div>{{ getI18nGenera }}</div>
+      <div>{{ type }}</div>
+      <div>{{ genera }}</div>
       <div>たかさ: {{ pokemon.height / 10 }}m</div>
       <div>おもさ: {{ pokemon.weight / 10 }}Kg</div>
       <div>
@@ -14,10 +14,10 @@
           v-if="modal"
           v-bind:pokemon="pokemon"
           v-bind:species="species"
-          v-bind:type="getI18nType"
-          v-bind:name="getI18nName"
-          v-bind:genera="getI18nGenera"
-          v-bind:sprites="getSprites"
+          v-bind:name="name"
+          v-bind:genera="genera"
+          v-bind:type="type"
+          v-bind:sprites="sprites"
           v-bind:local="local"
         >
         </pokemon-details>
@@ -27,7 +27,7 @@
 
 <script>
 import axios from 'axios'
-import PokemonDetails from '../components/PokemonDetails.vue'
+import PokemonDetails from '@/components/PokemonDetails.vue'
 
 export default {
   props: {
@@ -37,6 +37,10 @@ export default {
   data: function() {
     return {
       species : null,
+      name: null,
+      genera: null,
+      sprites: null,
+      type: null,
       types: [],
       modal: false,
       front: true,
@@ -46,71 +50,63 @@ export default {
   mounted () {
     // 色違いの判定
     if (Math.random() < 0.03) {
-      this.shiny = true;
+      this.shiny = true
     }
-    this.getSpecies();
-    this.getTypes();
-  },
-  computed: {
-    getI18nName: function() {
-      if (this.species !== null) {
-        let names = this.species.names;
-        let result = names.find(v => v.language.name === this.$language[this.local]);
-        return result.name;
-      }
-    },
-    getI18nFlavorText: function() {
-      if (this.species !== null) {
-        let flavor_text_entries = this.species.flavor_text_entries;
-        let result = flavor_text_entries.find(v => v.language.name === this.$language[this.local]);
-        return result.flavor_text;
-      }
-    },
-    getI18nGenera: function() {
-      if (this.species !== null) {
-        let genera = this.species.genera;
-        let result = genera.find(v => v.language.name === this.$language[this.local]);
-        return result.genus;
-      }
-    },
-    getSprites: function() {
-      if (this.shiny) {
-          if (this.front) {
-            return this.pokemon.sprites.front_shiny;
-          } else {
-            return this.pokemon.sprites.back_shiny;
-          }
-      } else {
-        if (this.front) {
-          return this.pokemon.sprites.front_default;
-        } else {
-          return this.pokemon.sprites.back_default;
-        }
-      }
-    },
-    getI18nType: function() {
-      let types = '';
-      for (const type of this.types) {
-        const type_name = type.names.find(v => v.language.name === this.$language[this.local]);
-        types += `《${type_name.name}》`;
-      }
-      return types;
-    }
+    this.getSpecies()
+    this.getTypes()
   },
   methods: {
     getSpecies: async function() {
       try {
-        const species = await axios.get(this.pokemon.species.url);
-        return this.species = species.data;
+        const species = await axios.get(this.pokemon.species.url)
+        this.species = species.data
+        this.getI18nName()
+        this.getI18nGenera()
+        this.getSprites()
       } catch(err){
-        console.error(err);
+        console.error(err)
+      }
+    },
+    getI18nName: function() {
+        const names = this.species.names
+        let result = names.find(v => v.language.name === this.$language[this.local])
+        this.name = result.name
+    },
+    getI18nGenera: function() {
+        const genera = this.species.genera
+        const result = genera.find(v => v.language.name === this.$language[this.local])
+        this.genera = result.genus
+    },
+    getSprites: function() {
+      if (this.shiny) {
+          if (this.front) {
+            this.sprites = this.pokemon.sprites.front_shiny;
+          } else {
+            this.sprites = this.pokemon.sprites.back_shiny;
+          }
+      } else {
+        if (this.front) {
+          this.sprites =  this.pokemon.sprites.front_default;
+        } else {
+          this.sprites =  this.pokemon.sprites.back_default;
+        }
       }
     },
     getTypes: async function () {
+      const urls = []
       for (const type of this.pokemon.types) {
-        let result = await axios.get(type.type.url);
-        this.types.push(result.data);
+        urls.push(type.type.url)
       }
+      const types = await Promise.all(urls.map(axios.get))
+      this.getI18nType(types)
+    },
+    getI18nType: function(types) {
+      let result_types = ''
+      for (const type of types) {
+        const type_name = type.data.names.find(v => v.language.name === this.$language[this.local])
+        result_types += `《${type_name.name}》`
+      }
+      this.type = result_types
     },
     openModal() {
       this.modal = true;
